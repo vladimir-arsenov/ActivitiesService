@@ -1,8 +1,11 @@
+import com.github.spotbugs.snom.assign
+
 plugins {
 	java
 	id("org.springframework.boot") version "3.3.5"
 	id("io.spring.dependency-management") version "1.1.6"
 	jacoco
+	id("com.github.spotbugs") version "6.0.26"
 }
 
 group = "org.example"
@@ -12,6 +15,12 @@ java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(17)
 	}
+}
+
+spotbugs {
+	showProgress = true
+	effort = "MAX"
+	reportLevel = "LOW"
 }
 
 configurations {
