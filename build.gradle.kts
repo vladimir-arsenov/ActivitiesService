@@ -2,6 +2,7 @@ plugins {
 	java
 	id("org.springframework.boot") version "3.3.5"
 	id("io.spring.dependency-management") version "1.1.6"
+	jacoco
 }
 
 group = "org.example"
@@ -33,6 +34,32 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-tasks.withType<Test> {
+tasks.test {
 	useJUnitPlatform()
+}
+
+tasks.jacocoTestReport {
+	dependsOn(tasks.test)
+
+	reports {
+		xml.required = true
+	}
+
+	classDirectories.setFrom(
+		fileTree( "${layout.buildDirectory.get().asFile}/classes/java/main") {
+			exclude("**/model/**")
+		}
+	)
+}
+
+tasks.jacocoTestCoverageVerification {
+	dependsOn("test")
+
+	violationRules {
+		rule {
+			limit {
+				minimum = "0.7".toBigDecimal()
+			}
+		}
+	}
 }

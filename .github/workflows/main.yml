@@ -28,13 +28,6 @@ jobs:
       - name: Test coverage report
         run: ./gradlew jacocoTestReport
 
-      - name: Upload test coverage to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          files: ./build/reports/jacoco/test/jacocoTestReport.xml
-          fail_ci_if_error: true
-          flags: unittests
-
       - name: Run static code analysis with SpotBugs
         run: ./gradlew spotbugsMain
 
