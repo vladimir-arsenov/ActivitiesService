@@ -47,7 +47,7 @@ public class YandexMapsClientTests {
 
 
     @Test
-    public void test_getCorrectAddressWithCoordinates() {
+    public void test_getLocationInfo() {
         var response = new YandexMapsAddressWithCoordinatesResponse("Дубай, бульвар Мухаммед Бин Рашид, 1", 25.197300, 55.274243);
         var address = "Address";
         var json = """
@@ -100,7 +100,7 @@ public class YandexMapsClientTests {
                         )
         );
 
-        var result = apiClient.getCorrectAddressWithCoordinates(address);
+        var result = apiClient.getLocationInfo(address);
         assertEquals(response, result);
     }
 }
