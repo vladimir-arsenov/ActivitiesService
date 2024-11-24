@@ -15,3 +15,7 @@ spring:
         format_sql: true
   flyway:
     enabled: true
+
+yandexMapsApi:
+  apiKey: 7ffff1e0-b2fc-4cfa-ac3c-18a27f1c71b5
+  url: https://geocode-maps.yandex.ru/1.x/

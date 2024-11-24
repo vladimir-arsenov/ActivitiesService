@@ -37,6 +37,12 @@ public class ActivityRequest {
     private String address;
 
     @Column
+    private Double longitude;
+
+    @Column
+    private Double latitude;
+
+    @Column
     private String comment;
 
     @Column(name = "participants_required", nullable = false)
