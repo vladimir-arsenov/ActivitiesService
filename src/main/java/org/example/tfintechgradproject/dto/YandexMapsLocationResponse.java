@@ -10,8 +10,7 @@ import org.example.tfintechgradproject.utils.deserializer.YandexMapsAddressWithC
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class YandexMapsAddressWithCoordinatesResponse {
+public class YandexMapsLocationResponse {
     private String address;
-    private Double longitude;
-    private Double latitude;
+    private String coordinates;
 }

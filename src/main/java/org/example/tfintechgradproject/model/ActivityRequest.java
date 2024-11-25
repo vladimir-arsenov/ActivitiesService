@@ -11,11 +11,13 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.locationtech.jts.geom.Point;
 
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "activity_requests")
@@ -23,6 +25,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ActivityRequest {
 
     @Id
@@ -37,10 +40,7 @@ public class ActivityRequest {
     private String address;
 
     @Column
-    private Double longitude;
-
-    @Column
-    private Double latitude;
+    private Point coordinates;
 
     @Column
     private String comment;
@@ -54,6 +54,6 @@ public class ActivityRequest {
             joinColumns = @JoinColumn(name = "activity_request_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<User> participants;
+    private List<User> participants;
 }
 

@@ -2,7 +2,7 @@ package org.example.tfintechgradproject.client;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
-import org.example.tfintechgradproject.dto.YandexMapsAddressWithCoordinatesResponse;
+import org.example.tfintechgradproject.dto.YandexMapsLocationResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
@@ -47,8 +47,8 @@ public class YandexMapsClientTests {
 
 
     @Test
-    public void test_getLocationInfo() {
-        var response = new YandexMapsAddressWithCoordinatesResponse("Дубай, бульвар Мухаммед Бин Рашид, 1", 25.197300, 55.274243);
+    public void test_getLocationInfoByAddress() {
+        var response = new YandexMapsLocationResponse("Дубай, бульвар Мухаммед Бин Рашид, 1", "25.197300 55.274243");
         var address = "Address";
         var json = """
                 {
@@ -100,7 +100,7 @@ public class YandexMapsClientTests {
                         )
         );
 
-        var result = apiClient.getLocationInfo(address);
+        var result = apiClient.getLocationInfoByAddress(address);
         assertEquals(response, result);
     }
 }
