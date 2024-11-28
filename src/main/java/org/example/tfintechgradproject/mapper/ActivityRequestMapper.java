@@ -15,7 +15,7 @@ import java.util.ArrayList;
 @Component
 @RequiredArgsConstructor
 public class ActivityRequestMapper {
-    private final WKTReader wktReader = new WKTReader();
+    private final WKTReader wktReader;
     private final ActivityMapper activityMapper;
 
 

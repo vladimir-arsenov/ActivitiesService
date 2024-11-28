@@ -39,7 +39,7 @@ public class ActivityRequest {
     @Column
     private String address;
 
-    @Column
+    @Column(columnDefinition = "geography(POINT)")
     private Point coordinates;
 
     @Column

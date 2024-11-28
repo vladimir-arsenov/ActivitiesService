@@ -12,13 +12,13 @@ import java.util.List;
 public interface ActivityRequestRepository extends JpaRepository<ActivityRequest, Long> {
 
     @Query(value = """
-        select * from activity_request
-        where ST_DWithin(coordinates, ST_GeometryFromText('POINT(:coordinates)'), :radius)
+        select * from activity_requests
+        where ST_DWithin(coordinates, ST_GeographyFromText(:coordinatesInWkt), :radius)
         order by ST_Distance(
-        	ST_GeometryFromText('POINT(:coordinates)'),
+        	ST_GeographyFromText(:coordinatesInWkt),
         	coordinates
         )
-""")
-    List<ActivityRequest> getClosest(@Param("coordinates") String coordinates,
+""", nativeQuery = true)
+    List<ActivityRequest> getClosest(@Param("coordinatesInWkt") String coordinatesInWkt,
                                      @Param("radius")  Double radius);
 }

@@ -27,11 +27,9 @@ public class ActivityRequestService {
         activityRequestRepository.save(activityRequestMapper.toActivityRequest(activityRequestDto, locationInfo));
     }
 
-
-
     public List<ActivityRequestDto> getClosestActivityRequests(ClosestActivityRequestsDto closestActivityRequestsDto) {
         var locationInfo = getLocationInfo(closestActivityRequestsDto.getLocation());
-        return activityRequestRepository.getClosest(locationInfo.getCoordinates(), closestActivityRequestsDto.getRadius())
+        return activityRequestRepository.getClosest("POINT(" + locationInfo.getCoordinates() + ")", closestActivityRequestsDto.getRadius())
                 .stream()
                 .map(activityRequestMapper::toActivityRequestDto)
                 .toList();
