@@ -4,10 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.example.tfintechgradproject.dto.ActivityRequestDto;
 import org.example.tfintechgradproject.dto.CreateActivityRequestDto;
 import org.example.tfintechgradproject.dto.YandexMapsLocationResponse;
+import org.example.tfintechgradproject.model.Activity;
 import org.example.tfintechgradproject.model.ActivityRequest;
-import org.locationtech.jts.geom.Point;
-import org.locationtech.jts.io.ParseException;
-import org.locationtech.jts.io.WKTReader;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,21 +13,12 @@ import java.util.ArrayList;
 @Component
 @RequiredArgsConstructor
 public class ActivityRequestMapper {
-    private final WKTReader wktReader;
-    private final ActivityMapper activityMapper;
 
-
-    public ActivityRequest toActivityRequest(CreateActivityRequestDto activityRequestDto, YandexMapsLocationResponse yandexMapsLocationResponse){
-        Point point;
-        try {
-            point = (Point) wktReader.read("POINT (" + yandexMapsLocationResponse + ")");
-        } catch (ParseException e) {
-           throw new RuntimeException(e);
-        }
+    public ActivityRequest toActivityRequest(CreateActivityRequestDto activityRequestDto, Activity activity, YandexMapsLocationResponse yandexMapsLocationResponse){
         return ActivityRequest.builder()
-                .activity(activityRequestDto.getActivity())
+                .activity(activity)
                 .address(yandexMapsLocationResponse.getAddress())
-                .coordinates(point)
+                .coordinates(yandexMapsLocationResponse.getCoordinates())
                 .comment(activityRequestDto.getComment())
                 .participantsRequired(activityRequestDto.getParticipantsRequired())
                 .participants(new ArrayList<>())
@@ -38,9 +27,12 @@ public class ActivityRequestMapper {
 
     public ActivityRequestDto toActivityRequestDto(ActivityRequest activityRequest) {
         return ActivityRequestDto.builder()
-                .activity(activityMapper.toActivityDto(activityRequest.getActivity()))
+                .activityId(activityRequest.getActivity().getId())
+                .activityName(activityRequest.getActivity().getName())
+                .categoryId(activityRequest.getActivity().getCategory().getId())
+                .categoryName(activityRequest.getActivity().getCategory().getName())
                 .address(activityRequest.getAddress())
-                .coordinates(activityRequest.getCoordinates().getX() + " " + activityRequest.getCoordinates().getY())
+                .coordinates("%s %s" .formatted(activityRequest.getCoordinates().getX(), activityRequest.getCoordinates().getY()))
                 .comment(activityRequest.getComment())
                 .participantsRequired(activityRequest.getParticipantsRequired())
                 .build();

@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class ClosestActivityRequestsDto {
     private Double radius;
     private String location;
-    private ActivityDto activity;
+    private Long activityId;
 }
 

@@ -1,17 +1,19 @@
 package org.example.tfintechgradproject.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class ActivityDto {
+public class PatchActivityRequestDto {
 
-    private String name;
+    private Long activityId;
 
-    private String category;
+    private String location;
+
+    private String comment;
+
+    private Integer participantsRequired;
 }

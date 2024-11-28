@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.tfintechgradproject.utils.deserializer.YandexMapsAddressWithCoordinatesResponseDeserializer;
+import org.locationtech.jts.geom.Point;
 
 @JsonDeserialize(using = YandexMapsAddressWithCoordinatesResponseDeserializer.class)
 @Data
@@ -12,5 +13,5 @@ import org.example.tfintechgradproject.utils.deserializer.YandexMapsAddressWithC
 @NoArgsConstructor
 public class YandexMapsLocationResponse {
     private String address;
-    private String coordinates;
+    private Point coordinates;
 }

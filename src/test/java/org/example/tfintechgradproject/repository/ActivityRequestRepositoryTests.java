@@ -67,7 +67,7 @@ public class ActivityRequestRepositoryTests {
                         .participantsRequired(1)
                         .build()));
 
-        var closestActivityRequests = repository.getClosest("POINT(13.13 2.0)", ONE_DEGREE_OF_LATITUDE_IN_KM);
+        var closestActivityRequests = repository.getClosest(activity.getId(), "POINT(13.13 2.0)", ONE_DEGREE_OF_LATITUDE_IN_KM);
 
         assertEquals(3, closestActivityRequests.size());
         assertTrue(closestActivityRequests.contains(activityRequests.get(0)));
@@ -75,7 +75,7 @@ public class ActivityRequestRepositoryTests {
         assertTrue(closestActivityRequests.contains(activityRequests.get(2)));
 
 
-        closestActivityRequests = repository.getClosest("POINT(13.13 2.0)", ONE_DEGREE_OF_LATITUDE_IN_KM-2000);
+        closestActivityRequests = repository.getClosest(activity.getId(), "POINT(13.13 2.0)", ONE_DEGREE_OF_LATITUDE_IN_KM-2000);
 
         assertEquals(1, closestActivityRequests.size());
         assertTrue(closestActivityRequests.contains(activityRequests.get(1)));

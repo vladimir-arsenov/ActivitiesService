@@ -11,7 +11,13 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ActivityRequestDto {
 
-    private ActivityDto activity;
+    private Long activityId;
+
+    private String activityName;
+
+    private Long categoryId;
+
+    private String categoryName;
 
     private String address;
 
