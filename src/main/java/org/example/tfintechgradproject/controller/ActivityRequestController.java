@@ -2,7 +2,7 @@ package org.example.tfintechgradproject.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.tfintechgradproject.dto.ActivityRequestDto;
-import org.example.tfintechgradproject.dto.ClosestActivityRequestsDto;
+import org.example.tfintechgradproject.dto.GetClosestActivityRequestsDto;
 import org.example.tfintechgradproject.dto.CreateActivityRequestDto;
 import org.example.tfintechgradproject.dto.PatchActivityRequestDto;
 import org.example.tfintechgradproject.service.ActivityRequestService;
@@ -23,8 +23,8 @@ public class ActivityRequestController {
     private final ActivityRequestService activityRequestService;
 
     @GetMapping
-    public List<ActivityRequestDto> getClosestActivityRequests(@RequestBody ClosestActivityRequestsDto closestActivityRequestsDto) {
-        return activityRequestService.getClosestActivityRequests(closestActivityRequestsDto);
+    public List<ActivityRequestDto> getClosestActivityRequests(@RequestBody GetClosestActivityRequestsDto getClosestActivityRequestsDto) {
+        return activityRequestService.getClosestActivityRequests(getClosestActivityRequestsDto);
     }
 
     @GetMapping("/{id}")

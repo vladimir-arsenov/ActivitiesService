@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClosestActivityRequestsDto {
+public class GetClosestActivityRequestsDto {
     private Double radius;
     private String location;
     private Long activityId;

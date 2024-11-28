@@ -4,7 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.example.tfintechgradproject.client.YandexMapsClient;
 import org.example.tfintechgradproject.dto.ActivityRequestDto;
-import org.example.tfintechgradproject.dto.ClosestActivityRequestsDto;
+import org.example.tfintechgradproject.dto.GetClosestActivityRequestsDto;
 import org.example.tfintechgradproject.dto.CreateActivityRequestDto;
 import org.example.tfintechgradproject.dto.PatchActivityRequestDto;
 import org.example.tfintechgradproject.dto.YandexMapsLocationResponse;
@@ -24,11 +24,11 @@ public class ActivityRequestService {
     private final YandexMapsClient yandexMapsClient;
     private final ActivityService activityService;
 
-    public List<ActivityRequestDto> getClosestActivityRequests(ClosestActivityRequestsDto closestActivityRequestsDto) {
-        var activity = activityService.getActivityById(closestActivityRequestsDto.getActivityId());
-        var locationInfo = getLocationInfo(closestActivityRequestsDto.getLocation());
+    public List<ActivityRequestDto> getClosestActivityRequests(GetClosestActivityRequestsDto dto) {
+        var activity = activityService.getActivityById(dto.getActivityId());
+        var locationInfo = getLocationInfo(dto.getLocation());
 
-        return activityRequestRepository.getClosest(activity.getId(), locationInfo.getCoordinates().toString(), closestActivityRequestsDto.getRadius())
+        return activityRequestRepository.getClosest(activity.getId(), locationInfo.getCoordinates().toString(), dto.getRadius())
                 .stream()
                 .map(activityRequestMapper::toActivityRequestDto)
                 .toList();
