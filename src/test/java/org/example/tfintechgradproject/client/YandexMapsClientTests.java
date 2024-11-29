@@ -6,8 +6,10 @@ import org.example.tfintechgradproject.dto.YandexMapsLocationResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.io.ParseException;
+import org.locationtech.jts.io.WKTReader;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -27,8 +29,10 @@ public class YandexMapsClientTests {
     @Autowired
     private YandexMapsClient apiClient;
 
-    @Value("${yandexMapsApi.apiKey}")
-    private String apiKey;
+    @Autowired
+    private WKTReader wktReader;
+
+
 
     @BeforeAll
     public static void setUp() {
@@ -47,8 +51,8 @@ public class YandexMapsClientTests {
 
 
     @Test
-    public void test_getLocationInfoByAddress() {
-        var response = new YandexMapsLocationResponse("Дубай, бульвар Мухаммед Бин Рашид, 1", "25.197300 55.274243");
+    public void test_getLocationInfo() throws ParseException {
+        var response = new YandexMapsLocationResponse("Дубай, бульвар Мухаммед Бин Рашид, 1", (Point) wktReader.read("POINT(25.197300 55.274243)"));
         var address = "Address";
         var json = """
                 {
@@ -100,7 +104,7 @@ public class YandexMapsClientTests {
                         )
         );
 
-        var result = apiClient.getLocationInfoByAddress(address);
+        var result = apiClient.getLocationInfo(address);
         assertEquals(response, result);
     }
 }

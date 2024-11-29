@@ -4,10 +4,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.example.tfintechgradproject.client.YandexMapsClient;
 import org.example.tfintechgradproject.dto.ActivityRequestDto;
-import org.example.tfintechgradproject.dto.GetClosestActivityRequestsDto;
 import org.example.tfintechgradproject.dto.CreateActivityRequestDto;
 import org.example.tfintechgradproject.dto.PatchActivityRequestDto;
-import org.example.tfintechgradproject.dto.YandexMapsLocationResponse;
 import org.example.tfintechgradproject.mapper.ActivityRequestMapper;
 import org.example.tfintechgradproject.model.ActivityRequest;
 import org.example.tfintechgradproject.repository.ActivityRequestRepository;
@@ -24,11 +22,11 @@ public class ActivityRequestService {
     private final YandexMapsClient yandexMapsClient;
     private final ActivityService activityService;
 
-    public List<ActivityRequestDto> getClosestActivityRequests(GetClosestActivityRequestsDto dto) {
-        var activity = activityService.getActivityById(dto.getActivityId());
-        var locationInfo = getLocationInfo(dto.getLocation());
+    public List<ActivityRequestDto> getClosestActivityRequests(Long activityId, String location, Double radius) {
+        var activity = activityService.getActivityById(activityId);
+        var locationInfo =  yandexMapsClient.getLocationInfo(location);
 
-        return activityRequestRepository.getClosest(activity.getId(), locationInfo.getCoordinates().toString(), dto.getRadius())
+        return activityRequestRepository.getClosest(activity.getId(), locationInfo.getCoordinates().toString(), radius)
                 .stream()
                 .map(activityRequestMapper::toActivityRequestDto)
                 .toList();
@@ -39,7 +37,7 @@ public class ActivityRequestService {
     }
 
     public void add(CreateActivityRequestDto activityRequestDto) {
-        var locationInfo = getLocationInfo(activityRequestDto.getLocation());
+        var locationInfo = yandexMapsClient.getLocationInfo(activityRequestDto.getLocation());
         var activity = activityService.getActivityById(activityRequestDto.getActivityId());
         activityRequestRepository.save(activityRequestMapper.toActivityRequest(activityRequestDto, activity, locationInfo));
     }
@@ -53,7 +51,7 @@ public class ActivityRequestService {
             activityRequest.setComment(activityRequestDto.getComment());
         }
         if (activityRequestDto.getLocation() != null) {
-            var locationInfo = getLocationInfo(activityRequestDto.getLocation());
+            var locationInfo = yandexMapsClient.getLocationInfo(activityRequestDto.getLocation());
             activityRequest.setAddress(locationInfo.getAddress());
             activityRequest.setCoordinates(locationInfo.getCoordinates());
         }
@@ -66,12 +64,6 @@ public class ActivityRequestService {
     public void delete(Long id) {
         var activityRequest = getActivityRequestById(id);
         activityRequestRepository.delete(activityRequest);
-    }
-
-    private YandexMapsLocationResponse getLocationInfo(String location) {
-        return location.matches("^[-+]?\\d+(\\.\\d+)?\\s+[-+]?\\d+(\\.\\d+)?$")
-                ? yandexMapsClient.getLocationInfoByCoordinates(location)
-                : yandexMapsClient.getLocationInfoByAddress(location);
     }
 
     private ActivityRequest getActivityRequestById(Long id) {
