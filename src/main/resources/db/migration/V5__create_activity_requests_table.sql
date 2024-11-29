@@ -3,8 +3,7 @@ create table activity_requests (
                                    participants_required integer not null,
                                    activity_id bigint not null,
                                    address text,
-                                   longitude float(53),
-                                   latitude float(53),
+                                   coordinates geography(POINT,4326),
                                    comment text,
                                    primary key (id)
 );

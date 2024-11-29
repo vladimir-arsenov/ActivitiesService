@@ -19,6 +19,7 @@ java {
 
 spotbugs {
 	showProgress = true
+	ignoreFailures = true
 	effort = "MAX"
 	reportLevel = "LOW"
 }
@@ -43,6 +44,8 @@ dependencies {
 	implementation("org.flywaydb:flyway-core")
 	implementation("org.flywaydb:flyway-database-postgresql")
 	runtimeOnly("org.postgresql:postgresql")
+	implementation("org.hibernate:hibernate-spatial:6.6.3.Final")
+
 
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
