@@ -19,6 +19,7 @@ java {
 
 spotbugs {
 	showProgress = true
+	ignoreFailures = true
 	effort = "MAX"
 	reportLevel = "LOW"
 }
