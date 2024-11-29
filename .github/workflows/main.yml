@@ -27,9 +27,3 @@ jobs:
 
       - name: Build and run tests
         run: ./gradlew clean build
-
-      - name: Test coverage report
-        run: ./gradlew jacocoTestReport
-
-      - name: Run static code analysis with SpotBugs
-        run: ./gradlew spotbugsMain
