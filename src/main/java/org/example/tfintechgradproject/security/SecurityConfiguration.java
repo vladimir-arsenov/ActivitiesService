@@ -3,8 +3,10 @@ package org.example.tfintechgradproject.security;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.example.tfintechgradproject.repository.UserRepository;
+import org.example.tfintechgradproject.service.LogoutService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -13,6 +15,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,17 +33,23 @@ public class SecurityConfiguration  {
 
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, LogoutService logoutService) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
-                                // TODO CHANGE paths and add restrictions maybe add logout
                         req.requestMatchers("/login", "/register").permitAll()
+                                .requestMatchers(HttpMethod.POST, "api/**/activities", "api/**/activity-categories").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.PATCH, "api/**/activities", "api/**/activity-categories").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "api/**/activities", "api/**/activity-categories").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                         )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtSecurityFilter, UsernamePasswordAuthenticationFilter.class)
+                .logout(logout -> logout.logoutUrl("api/v1/logout")
+                        .addLogoutHandler(logoutService)
+                        .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+                )
                 .build();
     }
 
@@ -64,9 +73,9 @@ public class SecurityConfiguration  {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return phone -> new UserDetailsImpl(
-                userRepository.findUserByPhone(phone)
-                        .orElseThrow(() -> new EntityNotFoundException("User with phone number %s not found".formatted(phone)))
+        return email -> new UserPrincipal(
+                userRepository.findByEmail(email)
+                        .orElseThrow(() -> new EntityNotFoundException("User with email %s not found".formatted(email)))
         );
     }
 }
