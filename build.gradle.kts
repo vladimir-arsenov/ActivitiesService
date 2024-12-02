@@ -56,6 +56,8 @@ dependencies {
 	testImplementation("org.wiremock:wiremock-standalone:3.9.2")
 
 	implementation("io.github.resilience4j:resilience4j-spring-boot3:2.2.0")
+
+	
 }
 
 tasks.test {

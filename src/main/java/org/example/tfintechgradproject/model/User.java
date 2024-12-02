@@ -2,6 +2,7 @@ package org.example.tfintechgradproject.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,6 +33,10 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @Enumerated
+    @Column(nullable = false)
+    private Role role;
 
     @Column
     private String name;
