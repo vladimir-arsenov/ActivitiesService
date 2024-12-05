@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @WireMockTest(extensionScanningEnabled = true)
-public class YandexMapsClientTests {
+public class YandexMapsClientTest {
 
     @Autowired
     private YandexMapsClient apiClient;

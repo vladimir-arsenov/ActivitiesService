@@ -54,8 +54,15 @@ dependencies {
 	testImplementation("org.springframework.security:spring-security-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	testImplementation("org.wiremock:wiremock-standalone:3.9.2")
+	testImplementation("org.testcontainers:testcontainers:1.20.4")
+	testImplementation("org.testcontainers:junit-jupiter:1.20.4")
+	testImplementation("org.testcontainers:postgresql")
 
 	implementation("io.github.resilience4j:resilience4j-spring-boot3:2.2.0")
+
+	implementation("io.jsonwebtoken:jjwt-api:0.12.6")
+	implementation("io.jsonwebtoken:jjwt-impl:0.12.6")
+	implementation("io.jsonwebtoken:jjwt-jackson:0.12.6")
 }
 
 tasks.test {

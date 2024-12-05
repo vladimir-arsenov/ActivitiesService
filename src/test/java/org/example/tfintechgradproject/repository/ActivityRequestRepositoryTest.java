@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class ActivityRequestRepositoryTests {
+public class ActivityRequestRepositoryTest {
 
     @Autowired
     private ActivityRequestRepository repository;
