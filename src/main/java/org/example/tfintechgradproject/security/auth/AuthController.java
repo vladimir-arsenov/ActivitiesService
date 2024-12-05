@@ -1,19 +1,18 @@
-package org.example.tfintechgradproject.controller;
+package org.example.tfintechgradproject.security.auth;
 
 import lombok.RequiredArgsConstructor;
-import org.example.tfintechgradproject.dto.AuthenticationRequestDto;
-import org.example.tfintechgradproject.dto.AuthenticationResponseDto;
-import org.example.tfintechgradproject.dto.RegisterRequestDto;
-import org.example.tfintechgradproject.service.AuthenticationService;
+import org.example.tfintechgradproject.security.dto.AuthenticationRequestDto;
+import org.example.tfintechgradproject.security.dto.AuthenticationResponseDto;
+import org.example.tfintechgradproject.security.dto.RegisterRequestDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("api/v1")
+@RequiredArgsConstructor
 public class AuthController {
 
     private final AuthenticationService service;

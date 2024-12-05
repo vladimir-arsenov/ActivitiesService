@@ -1,36 +1,33 @@
-package org.example.tfintechgradproject.service;
+package org.example.tfintechgradproject.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
-import org.example.tfintechgradproject.repository.JwtTokenRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.function.Function;
 
-@Component
+@Service
+@RequiredArgsConstructor
 public class JwtService {
 
-    private final String secretKey;
-    private final JwtTokenRepository jwtTokenRepository;
     @Value("${application.security.jwt.ttl}")
-    private long jwtTtl;
-    @Value("${application.security.jwt.ttlRememberMe}")
-    private long jwtTtlRememberMe;
+    private long tokenTtl;
 
-    public JwtService(JwtTokenRepository jwtTokenRepository) throws NoSuchAlgorithmException {
-        this.jwtTokenRepository = jwtTokenRepository;
-        secretKey = Encoders.BASE64.encode(KeyGenerator.getInstance("HmacSHA256").generateKey().getEncoded());
-    }
+    @Value("${application.security.jwt.ttlRememberMe}")
+    private long tokenTtlRememberMe;
+
+    @Value("${application.security.jwt.secretKey}")
+    private String secretKey;
+
+    private final JwtTokenRepository jwtTokenRepository;
 
     public String generateToken(String username, boolean isRememberMe) {
         var claims = new HashMap<String, Object>();
@@ -39,7 +36,7 @@ public class JwtService {
                 .add(claims)
                 .subject(username)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + (isRememberMe ? jwtTtlRememberMe : jwtTtl)))
+                .expiration(new Date(System.currentTimeMillis() + (isRememberMe ? tokenTtlRememberMe : tokenTtl)))
                 .and()
                 .signWith(getSignInKey())
                 .compact();
@@ -51,11 +48,9 @@ public class JwtService {
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
         String username = extractUsername(token);
-        var validTokenFoundInDB = jwtTokenRepository.findByToken(token)
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(token) && jwtTokenRepository.findByToken(token)
                 .map(t -> !t.isExpired())
                 .orElse(false);
-
-        return validTokenFoundInDB && username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
     private SecretKey getSignInKey() {
@@ -82,6 +77,4 @@ public class JwtService {
                 .parseSignedClaims(token)
                 .getPayload();
     }
-
-
 }

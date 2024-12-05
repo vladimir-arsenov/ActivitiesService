@@ -7,5 +7,6 @@ create table users (
                        nickname text not null unique,
                        password text not null,
                        phone text unique,
+                       role smallint not null,
                        primary key (id)
 );

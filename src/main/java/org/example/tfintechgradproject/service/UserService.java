@@ -3,7 +3,7 @@ package org.example.tfintechgradproject.service;
 import lombok.RequiredArgsConstructor;
 import org.example.tfintechgradproject.dto.ChangePasswordDto;
 import org.example.tfintechgradproject.repository.UserRepository;
-import org.example.tfintechgradproject.security.UserPrincipal;
+import org.example.tfintechgradproject.security.auth.UserPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

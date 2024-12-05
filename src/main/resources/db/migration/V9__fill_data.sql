@@ -1,0 +1,1 @@
+insert into users (role, nickname, rating, password, email) values (0, 'admin', 100.00, '$2a$10$A2n9Sksxz6hBYw0HcSbuC.2aVAWfW4Dhdrbj.AMR31E/kLrIiZ18.', 'admin@admin')

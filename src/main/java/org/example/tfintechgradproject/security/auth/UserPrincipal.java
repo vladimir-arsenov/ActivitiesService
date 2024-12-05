@@ -1,6 +1,5 @@
-package org.example.tfintechgradproject.security;
+package org.example.tfintechgradproject.security.auth;
 
-import lombok.Builder;
 import org.example.tfintechgradproject.model.Role;
 import org.example.tfintechgradproject.model.User;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-@Builder
 public class UserPrincipal implements UserDetails {
 
     private final String email;

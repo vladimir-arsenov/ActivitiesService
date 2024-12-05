@@ -1,4 +1,4 @@
-package org.example.tfintechgradproject.dto;
+package org.example.tfintechgradproject.security.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RegisterRequestDto {
+public class AuthenticationRequestDto {
 
   private String email;
   private String password;
-  private String nickname;
   private boolean rememberMe;
 }

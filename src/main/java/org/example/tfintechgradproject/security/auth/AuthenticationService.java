@@ -1,15 +1,16 @@
-package org.example.tfintechgradproject.service;
+package org.example.tfintechgradproject.security.auth;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.example.tfintechgradproject.dto.AuthenticationRequestDto;
-import org.example.tfintechgradproject.dto.AuthenticationResponseDto;
-import org.example.tfintechgradproject.dto.RegisterRequestDto;
-import org.example.tfintechgradproject.model.JwtToken;
+import org.example.tfintechgradproject.security.dto.AuthenticationRequestDto;
+import org.example.tfintechgradproject.security.dto.AuthenticationResponseDto;
+import org.example.tfintechgradproject.security.dto.RegisterRequestDto;
+import org.example.tfintechgradproject.security.jwt.JwtService;
+import org.example.tfintechgradproject.security.jwt.JwtToken;
 import org.example.tfintechgradproject.model.Role;
 import org.example.tfintechgradproject.model.User;
-import org.example.tfintechgradproject.repository.JwtTokenRepository;
 import org.example.tfintechgradproject.repository.UserRepository;
+import org.example.tfintechgradproject.security.jwt.JwtTokenRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,6 +33,7 @@ public class AuthenticationService {
                         .email(request.getEmail())
                         .password(passwordEncoder.encode(request.getPassword()))
                         .role(Role.USER)
+                        .nickname(request.getNickname())
                         .rating(new BigDecimal("0.0"))
                         .build()
         );

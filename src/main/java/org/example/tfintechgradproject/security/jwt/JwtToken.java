@@ -1,4 +1,4 @@
-package org.example.tfintechgradproject.model;
+package org.example.tfintechgradproject.security.jwt;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,6 +14,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.tfintechgradproject.model.User;
 
 @Getter
 @Setter

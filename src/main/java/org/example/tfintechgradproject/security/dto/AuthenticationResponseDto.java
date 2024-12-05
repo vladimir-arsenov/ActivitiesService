@@ -1,4 +1,4 @@
-package org.example.tfintechgradproject.dto;
+package org.example.tfintechgradproject.security.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

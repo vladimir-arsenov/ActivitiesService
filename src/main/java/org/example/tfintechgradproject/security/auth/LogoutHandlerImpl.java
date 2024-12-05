@@ -1,17 +1,17 @@
-package org.example.tfintechgradproject.service;
+package org.example.tfintechgradproject.security.auth;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.example.tfintechgradproject.repository.JwtTokenRepository;
+import org.example.tfintechgradproject.security.jwt.JwtTokenRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 @RequiredArgsConstructor
-public class LogoutService implements LogoutHandler {
+public class LogoutHandlerImpl implements LogoutHandler {
 
     private final JwtTokenRepository jwtTokenRepository;
     private static final String AUTHORIZATION_HEADER = "Authorization";
