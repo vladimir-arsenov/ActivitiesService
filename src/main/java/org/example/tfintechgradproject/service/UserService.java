@@ -2,6 +2,7 @@ package org.example.tfintechgradproject.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.tfintechgradproject.dto.ChangePasswordDto;
+import org.example.tfintechgradproject.model.User;
 import org.example.tfintechgradproject.repository.UserRepository;
 import org.example.tfintechgradproject.security.auth.UserPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,8 +15,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public void changePassword(ChangePasswordDto request, UserPrincipal authenticatedUser) {
-        var user = userRepository.findByEmail(authenticatedUser.getUsername())
-                .get();
+        var user = findByEmail(authenticatedUser.getUsername());
         if (!passwordEncoder.matches(request.getCurrentPassword(), authenticatedUser.getPassword())) {
             throw new IllegalStateException("Wrong password");
         }
@@ -26,5 +26,11 @@ public class UserService {
         var encodedPassword = passwordEncoder.encode(request.getNewPassword());
         user.setPassword(encodedPassword);
         userRepository.save(user);
+    }
+
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalStateException("User with email %s not found".formatted(email)));
     }
 }

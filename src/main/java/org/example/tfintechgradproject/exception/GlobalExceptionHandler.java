@@ -1,5 +1,6 @@
 package org.example.tfintechgradproject.exception;
 
+import org.example.tfintechgradproject.exception.exceptions.CannotJoinActivityRequest;
 import org.example.tfintechgradproject.exception.exceptions.ExternalServiceUnavailable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,5 +18,11 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.SERVICE_UNAVAILABLE)
                 .header("Retry-After", "60s")
                 .body(e.getMessage());
+    }
+
+    @ExceptionHandler({ CannotJoinActivityRequest.class })
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleCannotJoinActivityRequest(CannotJoinActivityRequest e) {
+        return e.getMessage();
     }
 }
