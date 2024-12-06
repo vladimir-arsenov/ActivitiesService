@@ -2,7 +2,7 @@ package org.example.tfintechgradproject.client;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
-import org.example.tfintechgradproject.dto.YandexMapsLocationResponse;
+import org.example.tfintechgradproject.dto.response.YandexMapsLocationResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;

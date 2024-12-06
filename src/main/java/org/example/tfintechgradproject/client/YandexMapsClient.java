@@ -4,8 +4,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import lombok.RequiredArgsConstructor;
-import org.example.tfintechgradproject.dto.YandexMapsLocationResponse;
-import org.example.tfintechgradproject.exception.exceptions.ExternalServiceUnavailable;
+import lombok.extern.slf4j.Slf4j;
+import org.example.tfintechgradproject.dto.response.YandexMapsLocationResponse;
+import org.example.tfintechgradproject.exception.exceptions.ExternalServiceUnavailableException;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
@@ -14,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class YandexMapsClient {
@@ -26,9 +28,15 @@ public class YandexMapsClient {
 
 
     public YandexMapsLocationResponse getLocationInfo(String location) {
-        if (location.matches("^[-+]?\\d+(\\.\\d+)?\\s+[-+]?\\d+(\\.\\d+)?$")) { // 'location' is coordinates
+        log.info("Fetching location info for: {}", location);
+
+        if (location.matches("^[-+]?\\d+(\\.\\d+)?\\s+[-+]?\\d+(\\.\\d+)?$")) {
+            log.debug("Detected coordinates format for location: {}", location);
+
             return deserialize(acquireLocationInfo(location), location);
-        } else { // 'location' is address
+        } else {
+            log.debug("Detected address format for location: {}", location);
+
             return deserialize(acquireLocationInfo(location.replaceAll(" ", "+")), null);
         }
     }
@@ -36,6 +44,8 @@ public class YandexMapsClient {
     @RateLimiter(name = "yandexMapsApi", fallbackMethod = "rateLimiterFallback")
     @CircuitBreaker(name = "yandexMapsApi", fallbackMethod = "circuitBreakerFallback")
     private JsonNode acquireLocationInfo(String geocode) {
+        log.info("Requesting Yandex Maps API for geocode: {}", geocode);
+
         return restClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .queryParam("apikey", apiKey)
@@ -50,6 +60,8 @@ public class YandexMapsClient {
     }
 
     public YandexMapsLocationResponse deserialize(JsonNode node, String coordinates) {
+        log.debug("Deserializing response for coordinates: {}", coordinates);
+
         node = node.at("/response/GeoObjectCollection/featureMember").get(0).path("GeoObject");
 
         var response = new YandexMapsLocationResponse();
@@ -60,16 +72,21 @@ public class YandexMapsClient {
         try {
             response.setCoordinates((Point) wktReader.read("POINT (%s)".formatted(coordinates)));
         } catch (ParseException e) {
+            log.error("Failed to parse coordinates: {}", coordinates, e);
             throw new RuntimeException(e);
         }
+        log.debug("Successfully deserialized response: {}", response);
+
         return response;
     }
 
     private YandexMapsLocationResponse rateLimiterFallback(Exception e) {
-        throw new ExternalServiceUnavailable("Too many requests");
+        log.warn("Rate limiter fallback triggered", e);
+        throw new ExternalServiceUnavailableException("Too many requests");
     }
 
     private YandexMapsLocationResponse circuitBreakerFallback(Exception e) {
-        throw new ExternalServiceUnavailable("Service is unavailable");
+        log.warn("Circuit breaker fallback triggered", e);
+        throw new ExternalServiceUnavailableException("Service is unavailable");
     }
 }

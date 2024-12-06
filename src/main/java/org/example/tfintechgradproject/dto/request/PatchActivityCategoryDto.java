@@ -1,4 +1,4 @@
-package org.example.tfintechgradproject.dto;
+package org.example.tfintechgradproject.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ActivityCategoryDto {
+public class PatchActivityCategoryDto {
+    
     private String categoryName;
 }

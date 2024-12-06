@@ -12,6 +12,9 @@ alter table if exists activity_request_user
 alter table if exists activity_requests
     add constraint activity_request_activity_fk
         foreign key (activity_id) references activities;
+alter table if exists activity_requests
+    add constraint activity_request_user_fk
+        foreign key (creator_id) references users;
 
 alter table if exists jwt_tokens
     add constraint jwt_token_user_fk

@@ -1,7 +1,7 @@
 package org.example.tfintechgradproject.mapper;
 
-import org.example.tfintechgradproject.dto.ActivityCategoryDto;
-import org.example.tfintechgradproject.dto.CreateActivityCategoryDto;
+import org.example.tfintechgradproject.dto.response.ActivityCategoryDto;
+import org.example.tfintechgradproject.dto.request.CreateActivityCategoryDto;
 import org.example.tfintechgradproject.model.ActivityCategory;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +10,7 @@ public class ActivityCategoryMapper {
 
     public ActivityCategoryDto toActivityCategoryDto(ActivityCategory activityCategory) {
         return ActivityCategoryDto.builder()
+                .categoryId(activityCategory.getId())
                 .categoryName(activityCategory.getName())
                 .build();
     }

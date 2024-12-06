@@ -13,14 +13,14 @@ public interface ActivityRequestRepository extends JpaRepository<ActivityRequest
 
     @Query(value = """
         select * from activity_requests
-        where activity_id = :activity and ST_DWithin(coordinates, ST_GeographyFromText(:coordinatesInWkt), :radius)
+        where activity_id = :activity and ST_DWithin(coordinates, ST_GeographyFromText(:coordinatesInWkt), :radius) and status = 0
         order by ST_Distance(
         	ST_GeographyFromText(:coordinatesInWkt),
         	coordinates
         )
     """, nativeQuery = true)
-    List<ActivityRequest> getClosest(@Param("activity") Long activity,
-                                     @Param("coordinatesInWkt") String coordinatesInWkt,
-                                     @Param("radius")  Double radius
+    List<ActivityRequest> findActiveClosestActivityRequests(@Param("activity") Long activity,
+                                                            @Param("coordinatesInWkt") String coordinatesInWkt,
+                                                            @Param("radius") Double radius
     );
 }
