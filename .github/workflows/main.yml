@@ -1,0 +1,35 @@
+name: CI/CD pipeline
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Build and run tests
+        run: ./gradlew clean build
+
+      - name: Test coverage report
+        run: ./gradlew jacocoTestReport
+
+      - name: Run static code analysis with SpotBugs
+        run: ./gradlew spotbugsMain
