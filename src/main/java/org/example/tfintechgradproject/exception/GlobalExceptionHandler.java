@@ -32,4 +32,10 @@ public class GlobalExceptionHandler {
     public String handleEntityNotFoundException(EntityNotFoundException e) {
         return e.getMessage();
     }
+
+    @ExceptionHandler({ IllegalStateException.class })
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleIllegalStateException(IllegalStateException e) {
+        return e.getMessage();
+    }
 }

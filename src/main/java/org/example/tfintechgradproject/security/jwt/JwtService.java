@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.function.Function;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class JwtService {
@@ -30,6 +32,8 @@ public class JwtService {
     private final JwtTokenRepository jwtTokenRepository;
 
     public String generateToken(String username, boolean isRememberMe) {
+        log.info("Generating token for user: {}", username);
+
         var claims = new HashMap<String, Object>();
         return Jwts.builder()
                 .claims()
@@ -47,6 +51,8 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
+        log.info("Validating token for user: {}", userDetails.getUsername());
+
         String username = extractUsername(token);
         return username.equals(userDetails.getUsername()) && !isTokenExpired(token) && jwtTokenRepository.findByToken(token)
                 .map(t -> !t.isExpired())
