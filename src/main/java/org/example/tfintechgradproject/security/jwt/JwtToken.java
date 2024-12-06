@@ -1,7 +1,8 @@
-package org.example.tfintechgradproject.model;
+package org.example.tfintechgradproject.security.jwt;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,25 +14,27 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.tfintechgradproject.model.User;
 
-@Entity
-@Table(name = "activities")
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class Activity {
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "jwt_tokens")
+@Entity
+public class JwtToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Long id;
 
-    @Column(nullable = false, unique = true)
-    private String name;
+    @Column(unique = true)
+    public String token;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
-    private ActivityCategory category;
+    public boolean expired;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    public User user;
 }
-

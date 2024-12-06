@@ -3,8 +3,11 @@ create table activity_requests (
                                    participants_required integer not null,
                                    activity_id bigint not null,
                                    address text,
-                                   longitude float(53),
-                                   latitude float(53),
+                                   coordinates geography(POINT,4326),
+                                   join_deadline timestamp,
+                                   activity_start timestamp,
                                    comment text,
+                                   status smallint not null,
+                                   creator_id bigint not null,
                                    primary key (id)
 );

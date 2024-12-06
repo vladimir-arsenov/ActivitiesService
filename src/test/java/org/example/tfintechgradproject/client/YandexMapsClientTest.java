@@ -2,12 +2,14 @@ package org.example.tfintechgradproject.client;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
-import org.example.tfintechgradproject.dto.YandexMapsAddressWithCoordinatesResponse;
+import org.example.tfintechgradproject.dto.response.YandexMapsLocationResponse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.io.ParseException;
+import org.locationtech.jts.io.WKTReader;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -22,13 +24,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @WireMockTest(extensionScanningEnabled = true)
-public class YandexMapsClientTests {
+public class YandexMapsClientTest {
 
     @Autowired
     private YandexMapsClient apiClient;
 
-    @Value("${yandexMapsApi.apiKey}")
-    private String apiKey;
+    @Autowired
+    private WKTReader wktReader;
+
+
 
     @BeforeAll
     public static void setUp() {
@@ -47,8 +51,8 @@ public class YandexMapsClientTests {
 
 
     @Test
-    public void test_getLocationInfo() {
-        var response = new YandexMapsAddressWithCoordinatesResponse("Дубай, бульвар Мухаммед Бин Рашид, 1", 25.197300, 55.274243);
+    public void test_getLocationInfo() throws ParseException {
+        var response = new YandexMapsLocationResponse("Дубай, бульвар Мухаммед Бин Рашид, 1", (Point) wktReader.read("POINT(25.197300 55.274243)"));
         var address = "Address";
         var json = """
                 {
