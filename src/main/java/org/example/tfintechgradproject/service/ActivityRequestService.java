@@ -3,11 +3,11 @@ package org.example.tfintechgradproject.service;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.example.tfintechgradproject.client.YandexMapsClient;
-import org.example.tfintechgradproject.dto.ActivityRequestDto;
-import org.example.tfintechgradproject.dto.ActivityRequestPreviewDto;
-import org.example.tfintechgradproject.dto.CreateActivityRequestDto;
-import org.example.tfintechgradproject.dto.PatchActivityRequestDto;
-import org.example.tfintechgradproject.exception.exceptions.CannotJoinActivityRequest;
+import org.example.tfintechgradproject.dto.response.ActivityRequestDto;
+import org.example.tfintechgradproject.dto.response.ActivityRequestPreviewDto;
+import org.example.tfintechgradproject.dto.request.CreateActivityRequestDto;
+import org.example.tfintechgradproject.dto.request.PatchActivityRequestDto;
+import org.example.tfintechgradproject.exception.exceptions.CannotJoinActivityRequestException;
 import org.example.tfintechgradproject.mapper.ActivityRequestMapper;
 import org.example.tfintechgradproject.model.ActivityRequest;
 import org.example.tfintechgradproject.model.ActivityRequestStatus;
@@ -32,7 +32,7 @@ public class ActivityRequestService {
         var activity = activityService.getActivityById(activityId);
         var locationInfo =  yandexMapsClient.getLocationInfo(location);
 
-        return activityRequestRepository.findClosestAndActive(activity.getId(), locationInfo.getCoordinates().toString(), radius)
+        return activityRequestRepository.findActiveClosestActivityRequests(activity.getId(), locationInfo.getCoordinates().toString(), radius)
                 .stream()
                 .map(activityRequestMapper::toActivityRequestPreviewDto)
                 .toList();
@@ -44,7 +44,7 @@ public class ActivityRequestService {
         var participants = activityRequest.getParticipants();
 
         if (!activityRequest.getStatus().equals(ActivityRequestStatus.ACTIVE) || activityRequest.getParticipantsRequired() - participants.size() < 1) {
-            throw new CannotJoinActivityRequest("Activity request is not active anymore or all spots are filled");
+            throw new CannotJoinActivityRequestException("Activity request is not active anymore or all spots are filled");
         }
 
         participants.add(user);

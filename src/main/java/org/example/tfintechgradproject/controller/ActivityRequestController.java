@@ -1,10 +1,10 @@
 package org.example.tfintechgradproject.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.tfintechgradproject.dto.ActivityRequestDto;
-import org.example.tfintechgradproject.dto.ActivityRequestPreviewDto;
-import org.example.tfintechgradproject.dto.CreateActivityRequestDto;
-import org.example.tfintechgradproject.dto.PatchActivityRequestDto;
+import org.example.tfintechgradproject.dto.response.ActivityRequestDto;
+import org.example.tfintechgradproject.dto.response.ActivityRequestPreviewDto;
+import org.example.tfintechgradproject.dto.request.CreateActivityRequestDto;
+import org.example.tfintechgradproject.dto.request.PatchActivityRequestDto;
 import org.example.tfintechgradproject.security.auth.UserPrincipal;
 import org.example.tfintechgradproject.service.ActivityRequestService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -54,7 +54,7 @@ public class ActivityRequestController {
         activityRequestService.patch(id, activityRequestDto);
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/{id}/join")
     public void join(@PathVariable Long id, @AuthenticationPrincipal UserPrincipal authenticatedUser) {
         activityRequestService.join(id, authenticatedUser);
     }

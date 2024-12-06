@@ -2,9 +2,9 @@ package org.example.tfintechgradproject.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.example.tfintechgradproject.dto.ActivityDto;
-import org.example.tfintechgradproject.dto.CreateActivityDto;
-import org.example.tfintechgradproject.dto.PatchActivityDto;
+import org.example.tfintechgradproject.dto.response.ActivityDto;
+import org.example.tfintechgradproject.dto.request.CreateActivityDto;
+import org.example.tfintechgradproject.dto.request.PatchActivityDto;
 import org.example.tfintechgradproject.mapper.ActivityMapper;
 import org.example.tfintechgradproject.model.Activity;
 import org.example.tfintechgradproject.repository.ActivityRepository;

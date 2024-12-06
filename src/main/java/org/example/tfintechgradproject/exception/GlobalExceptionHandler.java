@@ -1,7 +1,8 @@
 package org.example.tfintechgradproject.exception;
 
-import org.example.tfintechgradproject.exception.exceptions.CannotJoinActivityRequest;
-import org.example.tfintechgradproject.exception.exceptions.ExternalServiceUnavailable;
+import jakarta.persistence.EntityNotFoundException;
+import org.example.tfintechgradproject.exception.exceptions.CannotJoinActivityRequestException;
+import org.example.tfintechgradproject.exception.exceptions.ExternalServiceUnavailableException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,18 +12,24 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler({ ExternalServiceUnavailable.class })
+    @ExceptionHandler({ ExternalServiceUnavailableException.class })
     @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
-    public ResponseEntity<String> handleExternalServiceUnavailable(ExternalServiceUnavailable e) {
+    public ResponseEntity<String> handleExternalServiceUnavailable(ExternalServiceUnavailableException e) {
         return ResponseEntity
                 .status(HttpStatus.SERVICE_UNAVAILABLE)
                 .header("Retry-After", "60s")
                 .body(e.getMessage());
     }
 
-    @ExceptionHandler({ CannotJoinActivityRequest.class })
+    @ExceptionHandler({ CannotJoinActivityRequestException.class })
     @ResponseStatus(HttpStatus.CONFLICT)
-    public String handleCannotJoinActivityRequest(CannotJoinActivityRequest e) {
+    public String handleCannotJoinActivityRequest(CannotJoinActivityRequestException e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler({ EntityNotFoundException.class })
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleEntityNotFoundException(EntityNotFoundException e) {
         return e.getMessage();
     }
 }

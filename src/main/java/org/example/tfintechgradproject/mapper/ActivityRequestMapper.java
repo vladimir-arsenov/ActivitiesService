@@ -1,12 +1,13 @@
 package org.example.tfintechgradproject.mapper;
 
 import lombok.RequiredArgsConstructor;
-import org.example.tfintechgradproject.dto.ActivityRequestDto;
-import org.example.tfintechgradproject.dto.ActivityRequestPreviewDto;
-import org.example.tfintechgradproject.dto.CreateActivityRequestDto;
-import org.example.tfintechgradproject.dto.YandexMapsLocationResponse;
+import org.example.tfintechgradproject.dto.response.ActivityRequestDto;
+import org.example.tfintechgradproject.dto.response.ActivityRequestPreviewDto;
+import org.example.tfintechgradproject.dto.request.CreateActivityRequestDto;
+import org.example.tfintechgradproject.dto.response.YandexMapsLocationResponse;
 import org.example.tfintechgradproject.model.Activity;
 import org.example.tfintechgradproject.model.ActivityRequest;
+import org.example.tfintechgradproject.model.ActivityRequestStatus;
 import org.example.tfintechgradproject.model.User;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,9 @@ public class ActivityRequestMapper {
                 .comment(activityRequestDto.getComment())
                 .participantsRequired(activityRequestDto.getParticipantsRequired())
                 .participants(new ArrayList<>())
+                .status(ActivityRequestStatus.ACTIVE)
+                .joinDeadline(activityRequestDto.getJoinDeadline())
+                .activityStart(activityRequestDto.getActivityStart())
                 .creator(creator)
                 .build();
     }
@@ -38,7 +42,7 @@ public class ActivityRequestMapper {
                 .coordinates("%s %s" .formatted(activityRequest.getCoordinates().getX(), activityRequest.getCoordinates().getY()))
                 .comment(activityRequest.getComment())
                 .participantsRequired(activityRequest.getParticipantsRequired())
-                .participantsJoined(activityRequest.getParticipantsRequired() - activityRequest.getParticipants().size())
+                .participantsJoined(activityRequest.getParticipants().size())
                 .activityStart(activityRequest.getActivityStart())
                 .joinDeadline(activityRequest.getJoinDeadline())
                 .creatorId(activityRequest.getCreator().getId())
@@ -56,7 +60,7 @@ public class ActivityRequestMapper {
                 .coordinates("%s %s" .formatted(activityRequest.getCoordinates().getX(), activityRequest.getCoordinates().getY()))
                 .comment(activityRequest.getComment())
                 .participantsRequired(activityRequest.getParticipantsRequired())
-                .participantsJoined(activityRequest.getParticipantsRequired() - activityRequest.getParticipants().size())
+                .participantsJoined(activityRequest.getParticipants().size())
                 .activityStart(activityRequest.getActivityStart())
                 .joinDeadline(activityRequest.getJoinDeadline())
                 .creatorId(activityRequest.getCreator().getId())

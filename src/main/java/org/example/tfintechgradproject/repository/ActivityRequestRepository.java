@@ -19,8 +19,8 @@ public interface ActivityRequestRepository extends JpaRepository<ActivityRequest
         	coordinates
         )
     """, nativeQuery = true)
-    List<ActivityRequest> findClosestAndActive(@Param("activity") Long activity,
-                                               @Param("coordinatesInWkt") String coordinatesInWkt,
-                                               @Param("radius") Double radius
+    List<ActivityRequest> findActiveClosestActivityRequests(@Param("activity") Long activity,
+                                                            @Param("coordinatesInWkt") String coordinatesInWkt,
+                                                            @Param("radius") Double radius
     );
 }

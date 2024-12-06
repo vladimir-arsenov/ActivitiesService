@@ -1,9 +1,9 @@
 package org.example.tfintechgradproject.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.tfintechgradproject.dto.ActivityDto;
-import org.example.tfintechgradproject.dto.CreateActivityDto;
-import org.example.tfintechgradproject.dto.PatchActivityDto;
+import org.example.tfintechgradproject.dto.response.ActivityDto;
+import org.example.tfintechgradproject.dto.request.CreateActivityDto;
+import org.example.tfintechgradproject.dto.request.PatchActivityDto;
 import org.example.tfintechgradproject.service.ActivityService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

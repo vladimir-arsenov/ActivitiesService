@@ -1,7 +1,7 @@
 package org.example.tfintechgradproject.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.tfintechgradproject.dto.ChangePasswordDto;
+import org.example.tfintechgradproject.dto.request.ChangePasswordDto;
 import org.example.tfintechgradproject.security.auth.UserPrincipal;
 import org.example.tfintechgradproject.service.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

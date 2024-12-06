@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import lombok.RequiredArgsConstructor;
-import org.example.tfintechgradproject.dto.YandexMapsLocationResponse;
-import org.example.tfintechgradproject.exception.exceptions.ExternalServiceUnavailable;
+import org.example.tfintechgradproject.dto.response.YandexMapsLocationResponse;
+import org.example.tfintechgradproject.exception.exceptions.ExternalServiceUnavailableException;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
@@ -66,10 +66,10 @@ public class YandexMapsClient {
     }
 
     private YandexMapsLocationResponse rateLimiterFallback(Exception e) {
-        throw new ExternalServiceUnavailable("Too many requests");
+        throw new ExternalServiceUnavailableException("Too many requests");
     }
 
     private YandexMapsLocationResponse circuitBreakerFallback(Exception e) {
-        throw new ExternalServiceUnavailable("Service is unavailable");
+        throw new ExternalServiceUnavailableException("Service is unavailable");
     }
 }

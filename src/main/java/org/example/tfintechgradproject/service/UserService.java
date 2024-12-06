@@ -1,7 +1,8 @@
 package org.example.tfintechgradproject.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.example.tfintechgradproject.dto.ChangePasswordDto;
+import org.example.tfintechgradproject.dto.request.ChangePasswordDto;
 import org.example.tfintechgradproject.model.User;
 import org.example.tfintechgradproject.repository.UserRepository;
 import org.example.tfintechgradproject.security.auth.UserPrincipal;
@@ -31,6 +32,6 @@ public class UserService {
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalStateException("User with email %s not found".formatted(email)));
+                .orElseThrow(() -> new EntityNotFoundException("User with email %s not found".formatted(email)));
     }
 }
