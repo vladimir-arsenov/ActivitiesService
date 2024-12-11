@@ -1,6 +1,7 @@
 package org.example.tfintechgradproject.security.config;
 
 import lombok.RequiredArgsConstructor;
+import org.example.tfintechgradproject.model.Role;
 import org.example.tfintechgradproject.security.auth.LogoutHandlerImpl;
 import org.example.tfintechgradproject.security.auth.UserDetailsServiceImpl;
 import org.example.tfintechgradproject.security.jwt.JwtSecurityFilter;
@@ -39,9 +40,9 @@ public class SecurityConfiguration  {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
                         req.requestMatchers("api/*/register", "api/*/auth").permitAll()
-                                .requestMatchers(HttpMethod.POST, "api/*/activity", "api/*/activity-category").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.PATCH, "api/*/activity", "api/*/activity-category").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "api/*/activity", "api/*/activity-category", "api/*/activity-request").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "api/*/activity", "api/*/activity-category").hasRole(Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.PATCH, "api/*/activity", "api/*/activity-category").hasRole(Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.DELETE, "api/*/activity", "api/*/activity-category", "api/*/activity-request").hasRole(Role.ADMIN.name())
                                 .anyRequest().authenticated()
                         )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

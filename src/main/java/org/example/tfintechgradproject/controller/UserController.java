@@ -1,5 +1,6 @@
 package org.example.tfintechgradproject.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.tfintechgradproject.dto.request.ChangePasswordDto;
 import org.example.tfintechgradproject.security.auth.UserPrincipal;
@@ -17,7 +18,7 @@ public class UserController {
     private final UserService userService;
 
     @PatchMapping("/password")
-    public void changePassword(@RequestBody ChangePasswordDto request, @AuthenticationPrincipal UserPrincipal authenticatedUser) {
+    public void changePassword(@Valid @RequestBody ChangePasswordDto request, @AuthenticationPrincipal UserPrincipal authenticatedUser) {
         userService.changePassword(request, authenticatedUser);
     }
 }

@@ -1,10 +1,11 @@
 spring:
+  config.import: file:./test.env[.properties]
   application:
     name: TFintechGradProject
   datasource:
-    url: jdbc:postgresql://localhost:5432/testdb
-    username: postgres
-    password: pass
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -17,10 +18,8 @@ application:
     jwt:
       ttlRememberMe: 2592000000
       ttl: 600000
-      secretKey: DSHTzrEshdcuxb7J+fBZqsHVenAVCKyt72laTZxEfFk=
-
-
+      secretKey: ${SECURITY_SECRET_KEY}
 
 yandexMapsApi:
-  apiKey: 7ffff1e0-b2fc-4cfa-ac3c-18a27f1c71b5
-  url: https://geocode-maps.yandex.ru/1.x/
+  apiKey: ${API_KEY}
+  url: ${API_URL}

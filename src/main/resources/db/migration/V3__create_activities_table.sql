@@ -4,3 +4,7 @@ create table activities (
                             name text not null unique,
                             primary key (id)
 );
+
+alter table if exists activities
+    add constraint activity_category_fk
+        foreign key (category_id) references activity_categories;

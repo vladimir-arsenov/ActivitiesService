@@ -11,3 +11,14 @@ create table activity_requests (
                                    creator_id bigint not null,
                                    primary key (id)
 );
+
+alter table if exists activity_requests
+    add constraint activity_request_activity_fk
+        foreign key (activity_id) references activities;
+alter table if exists activity_request_user
+    add constraint activity_request_user_activity_request_fk
+        foreign key (activity_request_id) references activity_requests;
+
+create index coordinates_idx
+    ON activity_requests
+        USING GIST (coordinates);

@@ -10,3 +10,11 @@ create table users (
                        role smallint not null,
                        primary key (id)
 );
+
+alter table if exists activity_requests
+    add constraint activity_request_user_fk
+        foreign key (creator_id) references users;
+
+alter table if exists activity_request_user
+    add constraint activity_request_user_user_fk
+        foreign key (user_id) references users;

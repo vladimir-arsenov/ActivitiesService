@@ -132,10 +132,10 @@ public class SecurityIntegrationTest {
         var json = """
                 {
                     "currentPassword" : "test4",
-                    "newPassword" : "new",
-                    "confirmationPassword" : "new"
+                    "newPassword" : "new_password",
+                    "confirmationPassword" : "new_password"
                 }""";
-        AuthenticationRequestDto authenticationRequest = new AuthenticationRequestDto("test4", "new", true);
+        AuthenticationRequestDto authenticationRequest = new AuthenticationRequestDto("test4", "new_password", true);
 
         var response = mockMvc.perform(post("/api/v1/register")
                         .contentType(MediaType.APPLICATION_JSON)

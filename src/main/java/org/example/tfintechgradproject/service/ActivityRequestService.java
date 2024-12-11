@@ -49,10 +49,12 @@ public class ActivityRequestService {
         var activityRequest = getActivityRequestById(id);
         var participants = activityRequest.getParticipants();
 
-        if (!activityRequest.getStatus().equals(ActivityRequestStatus.ACTIVE) || activityRequest.getParticipantsRequired() - participants.size() < 1) {
+        if (!activityRequest.getStatus().equals(ActivityRequestStatus.ACTIVE) ||
+                activityRequest.getParticipantsRequired() - participants.size() < 1 ||
+                activityRequest.getParticipants().contains(user)) {
             log.warn("Cannot join activity request. Status: {}, Remaining spots: {}", activityRequest.getStatus(), activityRequest.getParticipantsRequired() - participants.size());
 
-            throw new CannotJoinActivityRequestException("Activity request is not active anymore or all spots are filled");
+            throw new CannotJoinActivityRequestException("Activity request is not active anymore, user is participant already or all spots are filled");
         }
 
         participants.add(user);

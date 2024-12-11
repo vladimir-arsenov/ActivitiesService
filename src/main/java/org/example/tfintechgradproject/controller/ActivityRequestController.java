@@ -1,10 +1,11 @@
 package org.example.tfintechgradproject.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.tfintechgradproject.dto.response.ActivityRequestDto;
-import org.example.tfintechgradproject.dto.response.ActivityRequestPreviewDto;
 import org.example.tfintechgradproject.dto.request.CreateActivityRequestDto;
 import org.example.tfintechgradproject.dto.request.PatchActivityRequestDto;
+import org.example.tfintechgradproject.dto.response.ActivityRequestDto;
+import org.example.tfintechgradproject.dto.response.ActivityRequestPreviewDto;
 import org.example.tfintechgradproject.security.auth.UserPrincipal;
 import org.example.tfintechgradproject.service.ActivityRequestService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -50,7 +51,7 @@ public class ActivityRequestController {
 
     @PreAuthorize("@activityRequestService.isOwner(authentication, #id)")
     @PatchMapping("/{id}")
-    public void patch(@PathVariable Long id, @RequestBody PatchActivityRequestDto activityRequestDto) {
+    public void patch(@PathVariable Long id, @Valid @RequestBody PatchActivityRequestDto activityRequestDto) {
         activityRequestService.patch(id, activityRequestDto);
     }
 
@@ -60,7 +61,7 @@ public class ActivityRequestController {
     }
 
     @PostMapping
-    public void add(@RequestBody CreateActivityRequestDto activityRequestDto, @AuthenticationPrincipal UserPrincipal authenticatedUser) {
+    public void add(@Valid @RequestBody CreateActivityRequestDto activityRequestDto, @AuthenticationPrincipal UserPrincipal authenticatedUser) {
         activityRequestService.add(activityRequestDto, authenticatedUser);
     }
 

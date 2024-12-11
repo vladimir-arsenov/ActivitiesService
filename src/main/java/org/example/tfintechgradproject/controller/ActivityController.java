@@ -1,9 +1,10 @@
 package org.example.tfintechgradproject.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.tfintechgradproject.dto.response.ActivityDto;
 import org.example.tfintechgradproject.dto.request.CreateActivityDto;
 import org.example.tfintechgradproject.dto.request.PatchActivityDto;
+import org.example.tfintechgradproject.dto.response.ActivityDto;
 import org.example.tfintechgradproject.service.ActivityService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,12 +38,12 @@ public class ActivityController {
     }
 
     @PostMapping
-    public void add(@RequestBody CreateActivityDto activityDto) {
+    public void add(@Valid @RequestBody CreateActivityDto activityDto) {
         activityService.add(activityDto);
     }
 
     @PatchMapping("/{id}")
-    public void patch(@PathVariable Long id, @RequestBody PatchActivityDto activityDto) {
+    public void patch(@PathVariable Long id, @Valid @RequestBody PatchActivityDto activityDto) {
         activityService.patch(id, activityDto);
     }
 

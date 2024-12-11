@@ -23,15 +23,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException e) {
-        log.warn("MethodArgumentNotValidException handler: {}", e.getMessage());
-        return ResponseEntity.badRequest().body(e.getBindingResult().getAllErrors()
+    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException e) {
+        var map = e.getBindingResult().getAllErrors()
                 .stream()
                 .collect(Collectors.toMap(
                         error -> ((FieldError)error).getField(),
                         error -> Objects.requireNonNullElse(error.getDefaultMessage(), ""))
-                )
-        );
+                );
+        log.warn("MethodArgumentNotValidException handler: {}", map.entrySet().stream().map(entry -> "%s : %s".formatted(entry.getKey(), entry.getValue())).collect(Collectors.joining(", ")));
+
+        return map;
     }
 
     @ExceptionHandler({ ExternalServiceUnavailableException.class })
