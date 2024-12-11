@@ -1,0 +1,25 @@
+spring:
+  config.import: file:./test.env[.properties]
+  application:
+    name: TFintechGradProject
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+
+application:
+  security:
+    jwt:
+      ttlRememberMe: 2592000000
+      ttl: 600000
+      secretKey: ${SECURITY_SECRET_KEY}
+
+yandexMapsApi:
+  apiKey: ${API_KEY}
+  url: ${API_URL}
