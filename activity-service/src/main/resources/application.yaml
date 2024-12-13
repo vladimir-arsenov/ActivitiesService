@@ -1,0 +1,65 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: TFintechGradProject
+  datasource:
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    consumer:
+      group-id: ${KAFKA_GROUP_ID}
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: always
+
+
+resilience4j:
+  ratelimiter:
+    instances:
+      yandexMapsApi:
+        limit-for-period: 5
+        limit-refresh-period: 1s
+        timeout-duration: 0s
+  circuitbreaker:
+    instances:
+      yandexMapsApi:
+        minimumNumberOfCalls: 10
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 50
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 100
+        sliding-window-type: time_based
+
+application:
+  security:
+    jwt:
+      ttlRememberMe: 2592000000
+      ttl: 600000
+      secretKey: ${SECURITY_SECRET_KEY}
+  yandexMapsApi:
+    apiKey: ${API_KEY}
+    url: ${API_URL}
+  kafka:
+    topic: email-notifications
+
+
