@@ -1,7 +1,6 @@
 package org.example.activityservice.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.activityservice.client.YandexMapsClient;
@@ -124,7 +123,6 @@ public class ActivityRequestService {
         activityRequestRepository.delete(activityRequest);
     }
 
-    @Transactional
     public void closeActivityRequest(Long requestId) {
         var request = getActivityRequestById(requestId);
 

@@ -2,7 +2,7 @@ package org.example.activityservice.utils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.activityservice.dto.NotificationDto;
+import org.example.notificationservice.dto.NotificationDto;
 import org.example.activityservice.model.ActivityRequest;
 import org.example.activityservice.service.ActivityRequestService;
 import org.example.activityservice.service.NotificationKafkaPublisherService;

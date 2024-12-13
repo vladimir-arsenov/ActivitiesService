@@ -30,6 +30,8 @@ public class ActivityRequestDto {
 
     private LocalDateTime activityStart;
 
+    private String status;
+
     private String comment;
 
     private Integer participantsRequired;

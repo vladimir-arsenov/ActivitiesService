@@ -1,7 +1,6 @@
 server:
   port: 8080
 spring:
-  config.import: file:./.env[.properties]
   application:
     name: TFintechGradProject
   datasource:
@@ -33,12 +32,7 @@ spring:
     jdbc:
       initialize-schema: always
 
-logging:
-  level:
-    org.example.tfintechgradproject: DEBUG
-    org:
-      springframework:
-        security: TRACE
+
 resilience4j:
   ratelimiter:
     instances:

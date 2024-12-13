@@ -10,13 +10,11 @@ spring:
     password: ${EMAIL_PASSWORD}
     properties:
       mail:
-        smpt:
+        smtp:
           auth: true
           starttls:
             enable: true
-          connectiontimeout: 5000
-          timeout: 3000
-          writetimeout: 5000
+            required: true
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
     consumer:

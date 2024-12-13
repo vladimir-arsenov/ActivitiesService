@@ -29,6 +29,8 @@ public class ActivityRequestPreviewDto {
 
     private LocalDateTime activityStart;
 
+    private String status;
+
     private String comment;
 
     private Integer participantsRequired;

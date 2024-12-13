@@ -10,6 +10,7 @@ import org.example.activityservice.security.auth.UserPrincipal;
 import org.example.activityservice.service.ActivityRequestService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -25,6 +26,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/activity-request")
 @RequiredArgsConstructor
+@Validated
 public class ActivityRequestController {
 
     private final ActivityRequestService activityRequestService;

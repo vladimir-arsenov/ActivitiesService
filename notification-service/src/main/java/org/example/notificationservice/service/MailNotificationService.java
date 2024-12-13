@@ -15,12 +15,12 @@ public class MailNotificationService {
 
     public void sendEmail(String to, String subject, String text) {
         try {
+            log.debug("Sending email to {} with subject {}", to, subject);
             var message = new SimpleMailMessage();
             message.setTo(to);
             message.setSubject(subject);
             message.setText(text);
             javaMailSender.send(message);
-            log.info("Email sent to {} with subject {}", to, subject);
         } catch (Exception e) {
             log.warn("Failed to send email to {} with subject {}. Error: {}", to, subject, e.getMessage());
         }

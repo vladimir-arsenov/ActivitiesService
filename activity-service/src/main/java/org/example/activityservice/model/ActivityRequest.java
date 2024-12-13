@@ -3,6 +3,7 @@ package org.example.activityservice.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -64,7 +65,7 @@ public class ActivityRequest {
     @JoinColumn(name = "creator_id", nullable = false)
     private User creator;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "activity_request_user",
             joinColumns = @JoinColumn(name = "activity_request_id"),
