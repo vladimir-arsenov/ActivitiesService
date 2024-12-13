@@ -1,0 +1,54 @@
+package org.example.activityservice.controller;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.example.activityservice.dto.request.CreateActivityDto;
+import org.example.activityservice.dto.request.PatchActivityDto;
+import org.example.activityservice.dto.response.ActivityDto;
+import org.example.activityservice.service.ActivityService;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("api/v1/activity")
+@RequiredArgsConstructor
+public class ActivityController {
+
+    private final ActivityService activityService;
+
+    @GetMapping
+    public List<ActivityDto> getAll(@RequestParam(value = "category", required = false) Long categoryId) {
+        return categoryId == null
+                ? activityService.getAll()
+                : activityService.getActivitiesByCategory(categoryId);
+    }
+
+    @GetMapping("/{id}")
+    public ActivityDto get(@PathVariable Long id) {
+        return activityService.get(id);
+    }
+
+    @PostMapping
+    public void add(@Valid @RequestBody CreateActivityDto activityDto) {
+        activityService.add(activityDto);
+    }
+
+    @PatchMapping("/{id}")
+    public void patch(@PathVariable Long id, @Valid @RequestBody PatchActivityDto activityDto) {
+        activityService.patch(id, activityDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        activityService.delete(id);
+    }
+}
